@@ -45,6 +45,104 @@ namespace Aupova_Autoservice
         {
             UpdateServices();
         }
+        private void PageListBox_MouseUp(object sender, MouseEventArgs e)
+        {
+            ChangePage(0, Convert.ToInt32(PageListBox.SelectedItem.ToString()) - 1);
+        }
+        private void LeftDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage(1, null);
+        }
+        private void RightDirButton_Click(object sender, RoutedEventArgs e)
+        {
+            ChangePage(2, null);
+        }
+        int CountRecords;
+        int CountPage;
+        int CurrentPage = 0;
+        List<Service> CurrentPageList = new List<Service>();
+        List<Service> TableList;
+        private void ChangePage(int direction, int? selectedPage)
+        {
+            CurrentPageList.Clear();
+            CountRecords=TableList.Count;
+            if(CountRecords%10>0)
+            {
+                CountPage = CountRecords/10 + 1;
+            }
+            else
+            {
+                CountPage = CountRecords / 10;
+            }
+            Boolean Ifupdate = true;
+            int min;
+            if(selectedPage.HasValue)
+            {
+                if(selectedPage>=0&&selectedPage<=CountPage)
+                {
+                    CurrentPage=(int)selectedPage;
+                    min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                    for(int i=CurrentPage*10;i<min;i++)
+                    {
+                        CurrentPageList.Add(TableList[i]);
+                    }
+                }
+            }
+            else
+            {
+                switch(direction)
+                {
+                    case 1:
+                        if(CurrentPage>0)
+                        {
+                            CurrentPage--;
+                            min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                            for(int i=CurrentPage*10; i<min;i++)
+                            {
+                                CurrentPageList.Add(TableList[i]);
+                            }
+                        }
+                        else
+                        {
+                            Ifupdate = false;
+                        }
+                        break;
+                    case 2:
+                        if(CurrentPage <CountPage - 1)
+                        {
+                            CurrentPage++;
+                            min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                            for(int i=CurrentPage * 10; i<min;i++)
+                            {
+                                CurrentPageList.Add(TableList[i]);
+                            }
+
+                        }
+                        else
+                        {
+                            Ifupdate = false;
+                        }
+                        break;
+
+                }
+            }
+            if(Ifupdate)
+            {
+                PageListBox.Items.Clear();
+                for(int i=1; i<=CountPage; i++)
+                {
+                    PageListBox.Items.Add(i);
+                }
+                PageListBox.SelectedIndex = CurrentPage;
+                min = CurrentPage * 10 + 10 < CountRecords ? CurrentPage * 10 + 10 : CountRecords;
+                TBCount.Text = min.ToString();
+                TBAllRecords.Text=" из "+CountRecords.ToString();
+                ServiceListView.ItemsSource = CurrentPageList;
+                ServiceListView.Items.Refresh();
+            }
+        }
+       
+
 
 
         private void UpdateServices()
@@ -52,41 +150,44 @@ namespace Aupova_Autoservice
             var currentServices = аюпова_автосервисEntities.GetContext().Service.ToList();
             if (ComboType.SelectedIndex == 0)
             {
-                currentServices=currentServices.Where(p=>(Convert.ToInt32(p.DiscounIt)>=0&& Convert.ToInt32(p.DiscounIt)<=100)).ToList();    
+                currentServices = currentServices.Where(p => (Convert.ToInt32(p.DiscounIt) >= 0 && Convert.ToInt32(p.DiscounIt) <= 100)).ToList();
 
             }
             if (ComboType.SelectedIndex == 1)
             {
                 currentServices = currentServices.Where(p => (Convert.ToInt32(p.DiscounIt) >= 0 && Convert.ToInt32(p.DiscounIt) < 5)).ToList();
             }
-            if(ComboType.SelectedIndex == 2)
+            if (ComboType.SelectedIndex == 2)
             {
                 currentServices = currentServices.Where(p => (Convert.ToInt32(p.DiscounIt) >= 5 && Convert.ToInt32(p.DiscounIt) < 15)).ToList();
 
             }
-            if(ComboType.SelectedIndex == 3)
+            if (ComboType.SelectedIndex == 3)
             {
                 currentServices = currentServices.Where(p => (Convert.ToInt32(p.DiscounIt) >= 15 && Convert.ToInt32(p.DiscounIt) < 30)).ToList();
             }
-            if(ComboType.SelectedIndex== 4)
+            if (ComboType.SelectedIndex == 4)
             {
                 currentServices = currentServices.Where(p => (Convert.ToInt32(p.DiscounIt) >= 30 && Convert.ToInt32(p.DiscounIt) < 75)).ToList();
             }
-            if(ComboType.SelectedIndex == 5)
+            if (ComboType.SelectedIndex == 5)
             {
                 currentServices = currentServices.Where(p => (Convert.ToInt32(p.DiscounIt) >= 75 && Convert.ToInt32(p.DiscounIt) < 100)).ToList();
             }
-            currentServices=currentServices.Where(p=>p.Title.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
-            ServiceListView.ItemsSource=currentServices.ToList();
+            currentServices = currentServices.Where(p => p.Title.ToLower().Contains(TBoxSearch.Text.ToLower())).ToList();
+            ServiceListView.ItemsSource = currentServices.ToList();
 
-            if(RButtonDown.IsChecked.Value)
+            if (RButtonDown.IsChecked.Value)
             {
-                ServiceListView.ItemsSource=currentServices.OrderByDescending(p=>p.Cost).ToList();
+                currentServices = currentServices.OrderByDescending(p => p.Cost).ToList();
             }
             if (RButtonDown.IsChecked.Value)
             {
-                ServiceListView.ItemsSource = currentServices.OrderBy(p => p.Cost).ToList();
+                currentServices = currentServices.OrderBy(p => p.Cost).ToList();
             }
+            ServiceListView.ItemsSource = currentServices;
+            TableList = currentServices;
+            ChangePage(0, 0);
 
 
         }
@@ -94,6 +195,40 @@ namespace Aupova_Autoservice
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             Manager.MainFrame.Navigate(new AddEditPage());
+        }
+        private void DeleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            var currentService = (sender as Button).DataContext as Service;
+            var currentClientServices = аюпова_автосервисEntities.GetContext().ClientService.ToList();
+            currentClientServices = currentClientServices.Where(p => p.ServiceID == currentService.ID).ToList();
+            if (currentClientServices.Count != 0)
+            {
+                MessageBox.Show("Невозможно выполнить удаление, так как существуют записи на эту услугу");
+            }
+            else
+            {
+                if (MessageBox.Show("Вы точно хотите выполнить удаление?", "Внимание!",
+                    MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+                {
+                    try
+                    {
+                        аюпова_автосервисEntities.GetContext().Service.Remove(currentService);
+                        аюпова_автосервисEntities.GetContext().SaveChanges();
+                        ServiceListView.ItemsSource = аюпова_автосервисEntities.GetContext().Service.ToList();
+                        UpdateServices();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message.ToString());
+                    }
+                }
+            }
+        }
+
+        private void AddButton_Click(object sender, RoutedEventArgs e)
+        {
+
+
         }
     }
 }
