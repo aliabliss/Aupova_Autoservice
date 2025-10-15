@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:Aupova_Autoservice"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="ServicePage" FontFamily="Tw Cen MT">
+      Title="ServicePage" FontFamily="Tw Cen MT" IsVisibleChanged="Page_IsVisibleChanged">
 
     <Grid >
         <Grid.RowDefinitions>
@@ -46,7 +46,7 @@
             <RadioButton Content="По убыванию стоимости" GroupName="Sort"
                          Width="300" FontSize="20" Checked="RButtonDown_Checked"
                          Name="RButtonDown"></RadioButton>
-            <Button Name="AddButton" Content="Добавить" Margin="2" Click="AddButton_Click" HorizontalAlignment="Right"></Button>
+            <Button Name="AddButton" Content="Добавить" Click="AddButton_Click" HorizontalAlignment="Right" VerticalAlignment="Bottom"></Button>
         </StackPanel>
                 <ListView Name="ServiceListView" Grid.Row="2" >
             <ListView.ItemTemplate>
@@ -70,7 +70,7 @@
                                 <Binding Path="MainImagePath">
                                     <Binding.TargetNullValue>
                                         <ImageSource>
-                                            res/service_logo.png
+                                            res/picture.png
                                         </ImageSource>
                                     </Binding.TargetNullValue>
                                 </Binding>
@@ -81,7 +81,7 @@
                         <TextBlock Text="{Binding Duration}" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Right" FontSize="20"></TextBlock>
                         <TextBlock Text="{Binding DiscounIt, StringFormat=*скидка {0} % }" Opacity="{Binding DiscounIt}" Margin="5" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left" FontSize="16"></TextBlock>
                         <StackPanel Grid.Column="1" Grid.Row="3" Orientation="Horizontal">
-                            <Button Name="EditButton" Content="Редактировать" Margin="2"></Button>
+                            <Button Name="EditButton" Content="Редактировать" Margin="2" Click="EditButton_Click"></Button>
                             <Button Name="DeleteButton" Content="Удалить" Margin="2" Click="DeleteButton_Click" ></Button>
                            
                         </StackPanel>

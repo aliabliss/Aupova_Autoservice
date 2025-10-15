@@ -26,12 +26,16 @@ namespace Aupova_Autoservice
         public string MainImagePath { get; set; }
         public string Duration { get; set; }
         public decimal Cost { get; set; }
-        public Nullable<double> Discount { get; set; }
+        public double Discount { get; set; }
         public int DiscounIt
         {
             get
             {
                 return (int)(Discount * 100);
+            }
+            set
+            {
+                Discount = value/100.0;
             }
         }  
         public string Description { get; set; }

@@ -189,6 +189,7 @@
       <DependentUpon>AupovaModel.edmx</DependentUpon>
       <LastGenOutput>AupovaModel.cs</LastGenOutput>
     </Content>
+    <Resource Include="res\picture.png" />
     <Resource Include="Услуги автосервиса\diz.jpg" />
     <Resource Include="Услуги автосервиса\rulevoe-upravlenie-avtomobilya.jpg" />
     <Resource Include="Услуги автосервиса\transmission.jpg" />
