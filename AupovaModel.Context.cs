@@ -15,7 +15,6 @@ namespace Aupova_Autoservice
     
     public partial class аюпова_автосервисEntities : DbContext
     {
-        //
         private static аюпова_автосервисEntities _context;
 
         public static аюпова_автосервисEntities GetContext()
@@ -24,7 +23,6 @@ namespace Aupova_Autoservice
                 _context = new аюпова_автосервисEntities();
             return _context;
         }
-        //
         public аюпова_автосервисEntities()
             : base("name=аюпова_автосервисEntities")
         {

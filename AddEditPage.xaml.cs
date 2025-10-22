@@ -43,7 +43,7 @@ namespace Aupova_Autoservice
                 errors.AppendLine("Укажите стоимость услуги");
             if (_currentServise.DiscounIt < 0 || _currentServise.DiscounIt > 100)
                 errors.AppendLine("Укажите скидку");
-            if (string.IsNullOrWhiteSpace(_currentServise.Duration))
+            if (_currentServise.Duration<=0)
                 errors.AppendLine("Укажите длительность услуги");
             if (errors.Length > 0)
             {

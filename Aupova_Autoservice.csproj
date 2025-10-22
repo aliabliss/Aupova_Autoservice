@@ -116,6 +116,9 @@
     <Compile Include="ServicePhoto.cs">
       <DependentUpon>AupovaModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="SignUpPage.xaml.cs">
+      <DependentUpon>SignUpPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Tag.cs">
       <DependentUpon>AupovaModel.tt</DependentUpon>
     </Compile>
@@ -136,6 +139,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="ServicePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SignUpPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -162,6 +169,7 @@
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>AupovaModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="App.Config" />
     <None Include="AupovaModel.edmx.diagram">
       <DependentUpon>AupovaModel.edmx</DependentUpon>
     </None>
@@ -172,23 +180,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="res\service_logo.ico" />
     <Resource Include="res\service_logo.png" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="AupovaModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <LastGenOutput>AupovaModel.Context.cs</LastGenOutput>
-      <DependentUpon>AupovaModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="AupovaModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>AupovaModel.edmx</DependentUpon>
-      <LastGenOutput>AupovaModel.cs</LastGenOutput>
-    </Content>
     <Resource Include="res\picture.png" />
     <Resource Include="Услуги автосервиса\diz.jpg" />
     <Resource Include="Услуги автосервиса\rulevoe-upravlenie-avtomobilya.jpg" />
@@ -210,6 +205,18 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="AupovaModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AupovaModel.edmx</DependentUpon>
+      <LastGenOutput>AupovaModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="AupovaModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>AupovaModel.edmx</DependentUpon>
+      <LastGenOutput>AupovaModel.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
